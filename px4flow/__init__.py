@@ -26,7 +26,7 @@ _BUFSIZE = 2048
 import serial
 import platform
 
-from mavlink_parser import MavLinkParser
+from px4flow.mavlink_parser import MavLinkParser
 
 class PX4Flow(MavLinkParser):
     '''
