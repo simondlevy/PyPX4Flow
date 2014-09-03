@@ -45,6 +45,9 @@ class PX4Flow(MavLinkParser):
         # Create MAVLink object for parsing
         MavLinkParser.__init__(self, self, MSG_OPTICAL_FLOW)
 
+        # Require refresh before first reading
+        self._refreshed = False
+
     def close(self):
         '''
         Closes the port on which the sensor was opened.
@@ -55,6 +58,8 @@ class PX4Flow(MavLinkParser):
         '''
         Refreshes the optical flow reading.
         '''
+
+        self._refreshed = True
             
         # Grab bytes from the device        
         bytes = self.dev.read(_BUFSIZE)
@@ -66,28 +71,49 @@ class PX4Flow(MavLinkParser):
         '''
         Returns raw sensor X,Y.
         '''
+
+        self._check_refreshed()
+
         return MavLinkParser.unpack(self, 'hh', 20, 24, 2)
         
     def getFlowComp(self):
         '''
         Returns computed X,Y in meters.
         '''
+
+        self._check_refreshed()
+
         return MavLinkParser.unpack(self, 'ff', 8, 16, 2)
         
     def getGroundDistance(self):
         '''
         Returns ground distance (height) in meters.
         '''
+
+        self._check_refreshed()
+
         return MavLinkParser.unpack1(self, 'f', 16, 20)
         
     def getQuality(self):
         '''
         Returns quality in percent.
         '''
+
+        self._check_refreshed()
+
         return MavLinkParser.unpack_uint8(self, 25)
 
     def getTime(self):
         '''
         Returns current time in microseconds.
         '''
+
+        self._check_refreshed()
+
         return MavLinkParser.unpack1(self, 'Q', 0,  8)
+
+    def _check_refreshed(self):
+
+        if not self._refreshed:
+
+            raise Exception('Attempt to read without refresh()')
