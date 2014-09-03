@@ -65,7 +65,7 @@ class PX4Flow(MAVLinkParser):
         bytes = self.dev.read(_BUFSIZE)
                 
         # Check for MAVLINK messages in bytes
-        MavLinkParser.process(self, bytes)
+        MAVLinkParser.process(self, bytes)
 
     def getFlow(self):
         '''
