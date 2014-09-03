@@ -52,13 +52,16 @@ DISTANCE_Y  = VELOCITY_Y
 DISTANCE_D  = VELOCITY_D
 DISTANCE_R  = 5
 
-import Tkinter
-
 from px4flow import PX4Flow
 from gauge import VerticalGauge
 
-from sys import exit
+from sys import exit, version
 from time import time, strftime
+
+if version[0] == '3':
+    import tkinter as tk
+else:
+    import Tkinter as tk
 
 class PX4FlowPlotter:
 
@@ -68,12 +71,12 @@ class PX4FlowPlotter:
         self.reader = reader
 
         # Set up the frame
-        self.root = Tkinter.Tk()
-        self.frame = Tkinter.Frame(self.root, borderwidth=4, width=DISPLAY_W, height=DISPLAY_H, relief='sunken')
+        self.root = tk.Tk()
+        self.frame = tk.Frame(self.root, borderwidth=4, width=DISPLAY_W, height=DISPLAY_H, relief='sunken')
         self.frame.master.title('PX4Flow: Hit ESC to quit')
 
         # Add a canvas for drawing
-        self.canvas =  Tkinter.Canvas(self.frame, width = DISPLAY_W, height = DISPLAY_H, background = 'black')
+        self.canvas =  tk.Canvas(self.frame, width = DISPLAY_W, height = DISPLAY_H, background = 'black')
 
         # Add a text item for reporting acquisition rate
         self.rate_label = self.create_label(DISPLAY_W-140, DISPLAY_H-20, color='red')
@@ -112,7 +115,7 @@ class PX4FlowPlotter:
         self.location_pix_prev = None
 
          # Pack the widgets into the canvas
-        self.canvas.pack(fill=Tkinter.BOTH, expand=1)
+        self.canvas.pack(fill=tk.BOTH, expand=1)
 
         # Set up a key event for exit on ESC
         self.frame.bind("<Key>", self.key)
@@ -144,7 +147,7 @@ class PX4FlowPlotter:
 
     def create_label(self, x, y, text=None, color='white'):
 
-        return self.canvas.create_text(x, y, anchor=Tkinter.W, font=('Helvetica', 12), fill=color, text=text)
+        return self.canvas.create_text(x, y, anchor=tk.W, font=('Helvetica', 12), fill=color, text=text)
 
     def run(self):
 
