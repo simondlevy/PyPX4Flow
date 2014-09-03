@@ -30,7 +30,7 @@ from px4flow.mavlink_parser import MavLinkParser
 
 class PX4Flow(MavLinkParser):
     '''
-    A class for reading from the PX4Flow optical flow sensor. Your subclass should provide an update method that
+    An abstract class for reading from the PX4Flow optical flow sensor. Your subclass should provide an update method that
     calls one or more of the accessor methods below.
     '''
     
