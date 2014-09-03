@@ -43,7 +43,7 @@ class PX4Flow(MAVLinkParser):
         self.dev = serial.Serial(port)
 
         # Create MAVLink object for parsing
-        MavLinkParser.__init__(self, self, MSG_OPTICAL_FLOW)
+        MAVLinkParser.__init__(self, self, MSG_OPTICAL_FLOW)
 
         # Require refresh before first reading
         self._refreshed = False
