@@ -26,9 +26,9 @@ _BUFSIZE = 2048
 import serial
 import platform
 
-from px4flow.mavlink_parser import MavLinkParser
+from px4flow.mavlink_parser import MAVLinkParser
 
-class PX4Flow(MavLinkParser):
+class PX4Flow(MAVLinkParser):
     '''
     An abstract class for reading from the PX4Flow optical flow sensor. Your subclass should provide an 
     update(self) method that calls one or more of the accessor methods below. 
