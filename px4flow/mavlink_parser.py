@@ -42,11 +42,9 @@ STX_BYTE = 0XFE
 class MavLinkParser(object):
 
     def process(self, buf):
-        
-        for c in buf:
-            
-            b = ord(c)
 
+        for b in bytearray(buf):
+            
             if b == STX_BYTE:         
                 self.state = STATE_STX
                 
@@ -65,11 +63,11 @@ class MavLinkParser(object):
                 
             elif self.state == STATE_COMP:
                 self.msgid = b
-                self.msg = ''
+                self.msg = bytearray('', 'utf8')
                 self.state = STATE_MSG
                 
             elif self.state == STATE_MSG:
-                self.msg += c
+                self.msg.append(b)
                 if len(self.msg) == self.msglen:
                     self.state = STATE_CKA
                     
@@ -79,7 +77,7 @@ class MavLinkParser(object):
             elif self.state == STATE_CKB:
                 if self.msgid == self.tgtid:
                     self.handler.update() 
-                    self.msg = ''
+                    self.msg = bytearray('', 'utf8')
                     self.state = STATE_DFLT
 
     def __init__(self, handler, targetid):
@@ -87,7 +85,7 @@ class MavLinkParser(object):
         self.state = STATE_DFLT
         self.msglen = 0
         self.msgid  = 0
-        self.msg    = ''
+        self.msg    = bytearray('', 'utf8')
         
         self.handler = handler
         self.tgtid = targetid
