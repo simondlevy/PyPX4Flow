@@ -22,7 +22,6 @@ along with this code.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import struct
-import array
 
 # States for message parsing
 # From http://qgroundcontrol.org/mavlink/start#packet_anatomy
