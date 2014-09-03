@@ -38,7 +38,7 @@ STATE_CKB  = 8
 # STX delimiter byte for Mavlink 1.0
 STX_BYTE = 0XFE
 
-class MavLinkParser(object):
+class MAVLinkParser(object):
 
     def process(self, buf):
 
