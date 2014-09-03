@@ -17,7 +17,12 @@ You should have received a copy of the GNU Lesser General Public License
 along with this code.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import Tkinter
+from sys import version
+
+if version[0] == '3':
+    import tkinter as tk
+else:
+    import Tkinter as tk
 
 class VerticalGauge(object):
     '''
@@ -57,5 +62,4 @@ class VerticalGauge(object):
 
     def _create_label(self, x, y, text):
 
-        return self.canvas.create_text(x, y, anchor=Tkinter.W, font=('Helvetica', 12), fill='white', text=text)
-
+        return self.canvas.create_text(x, y, anchor=tk.W, font=('Helvetica', 12), fill='white', text=text)
