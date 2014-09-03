@@ -74,7 +74,7 @@ class PX4Flow(MAVLinkParser):
 
         self._check_refreshed()
 
-        return MavLinkParser.unpack(self, 'hh', 20, 24, 2)
+        return MAVLinkParser.unpack(self, 'hh', 20, 24, 2)
         
     def getFlowComp(self):
         '''
@@ -83,7 +83,7 @@ class PX4Flow(MAVLinkParser):
 
         self._check_refreshed()
 
-        return MavLinkParser.unpack(self, 'ff', 8, 16, 2)
+        return MAVLinkParser.unpack(self, 'ff', 8, 16, 2)
         
     def getGroundDistance(self):
         '''
@@ -92,7 +92,7 @@ class PX4Flow(MAVLinkParser):
 
         self._check_refreshed()
 
-        return MavLinkParser.unpack1(self, 'f', 16, 20)
+        return MAVLinkParser.unpack1(self, 'f', 16, 20)
         
     def getQuality(self):
         '''
@@ -101,7 +101,7 @@ class PX4Flow(MAVLinkParser):
 
         self._check_refreshed()
 
-        return MavLinkParser.unpack_uint8(self, 25)
+        return MAVLinkParser.unpack_uint8(self, 25)
 
     def getTime(self):
         '''
@@ -110,7 +110,7 @@ class PX4Flow(MAVLinkParser):
 
         self._check_refreshed()
 
-        return MavLinkParser.unpack1(self, 'Q', 0,  8)
+        return MAVLinkParser.unpack1(self, 'Q', 0,  8)
 
     def _check_refreshed(self):
 
