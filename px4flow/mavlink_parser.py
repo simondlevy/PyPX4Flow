@@ -1,6 +1,8 @@
 '''
 mavlink_parser.py - Simon's homebrew code for parsing MAVLink messages.
                     DOES NOT VERIFY CHECKSUM!!!
+        
+This version works with Python pre-2.7.5, using a string instead of a byte array for the message.
 
 Based on http://en.wikipedia.org/wiki/MAVLink, but hoping to replace it
 with pymavlink, so we can get checksum and other features.
@@ -42,7 +44,9 @@ class MAVLinkParser(object):
 
     def process(self, buf):
 
-        for b in bytearray(buf):
+        for c in buf:
+
+            b = ord(c)
             
             if b == STX_BYTE:         
                 self.state = STATE_STX
@@ -62,11 +66,11 @@ class MAVLinkParser(object):
                 
             elif self.state == STATE_COMP:
                 self.msgid = b
-                self.msg = bytearray('', 'utf8')
+                self.msg = ''
                 self.state = STATE_MSG
                 
             elif self.state == STATE_MSG:
-                self.msg.append(b)
+                self.msg += c
                 if len(self.msg) == self.msglen:
                     self.state = STATE_CKA
                     
@@ -76,7 +80,7 @@ class MAVLinkParser(object):
             elif self.state == STATE_CKB:
                 if self.msgid == self.tgtid:
                     self.handler.update() 
-                    self.msg = bytearray('', 'utf8')
+                    self.msg = ''
                     self.state = STATE_DFLT
 
     def __init__(self, handler, targetid):
@@ -84,7 +88,7 @@ class MAVLinkParser(object):
         self.state = STATE_DFLT
         self.msglen = 0
         self.msgid  = 0
-        self.msg    = bytearray('', 'utf8')
+        self.msg    = ''
         
         self.handler = handler
         self.tgtid = targetid
